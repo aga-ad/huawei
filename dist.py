@@ -47,8 +47,16 @@ arg1 = ['C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\64-sources'
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\32-sources',\
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\32',\
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\16-sources',\
-       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\16']
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\16',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test1_blank\\64',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test1_blank\\32',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test1_blank\\16',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test2_blank\\64',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test2_blank\\32',\
+       'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test2_blank\\16']
+
 arg2 = 'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\data'
-arg3 = [64, 64, 32, 32, 16, 16]
-arg4 = ['64-sources', '64', '32-sources', '32', '16-sources', '16']
-Parallel(n_jobs=6)(delayed(dist)(arg1[i], arg2, arg3[i], arg4[i]) for i in range(6))
+arg3 = [64, 64, 32, 32, 16, 16, 64, 32, 16, 64, 32, 16]
+arg4 = ['train-64-sources', 'train-64', 'train-32-sources', 'train-32', 'train-16-sources', 'train-16',\
+        'test1-64', 'test1-32', 'test1-16', 'test2-64', 'test2-32', 'test2-16']
+Parallel(n_jobs=10)(delayed(dist)(arg1[i], arg2, arg3[i], arg4[i]) for i in range(12))
