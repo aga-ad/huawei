@@ -50,5 +50,5 @@ arg1 = ['C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\64-sources'
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\16']
 arg2 = 'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\data'
 arg3 = [64, 64, 32, 32, 16, 16]
-arg4 = ['64', '64', '32', '32', '16', '16']
+arg4 = ['64-sources', '64', '32-sources', '32', '16-sources', '16']
 Parallel(n_jobs=6)(delayed(dist)(arg1[i], arg2, arg3[i], arg4[i]) for i in range(6))
