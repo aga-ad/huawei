@@ -26,12 +26,12 @@ def dist(path, data_path, p, prefix):
             image = np.stack((image // 256,)*3, axis=-1)
         for x in range(m):
             for y in range(m):
-                left[i][x][y] = image[p * x, p * y:p * (y + 1)]
-                right[i][x][y] = image[p * x + p - 1, p * y:p * (y + 1)]
-                up[i][x][y] = image[p * x: p * (x + 1), p * y]
-                down[i][x][y] = image[p * x: p * (x + 1), p * y + p - 1]
-    ud = np.zeros((len(images), m, m, m, m), dtype=np.uint16)
-    lr = np.zeros((len(images), m, m, m, m), dtype=np.uint16)
+                ud[i][x][y] = image[p * x, p * y:p * (y + 1)]
+                down[i][x][y] = image[p * x + p - 1, p * y:p * (y + 1)]
+                left[i][x][y] = image[p * x: p * (x + 1), p * y]
+                right[i][x][y] = image[p * x: p * (x + 1), p * y + p - 1]
+    ud = np.zeros((len(images), m, m, m, m), dtype=np.int32)
+    lr = np.zeros((len(images), m, m, m, m), dtype=np.int32)
     compute(m, p, left, right, up, down, len(images), ud, lr)
     np.save(os.path.join(data_path, 'ud' + prefix), ud)
     np.save(os.path.join(data_path, 'lr' + prefix), lr)
@@ -46,8 +46,8 @@ def compute(m, p, left, right, up, down, image_len, ud, lr):
             for y1 in range(m):
                 for x2 in range(m):
                     for y2 in range(m):
-                        ud[i][x1][y1][x2][y2] = np.abs(up[i][x1][y1] - down[i][x2][y2]).sum()
-                        lr[i][x1][y1][x2][y2] = np.abs(left[i][x1][y1] - right[i][x2][y2]).sum()
+                        ud[i][x1][y1][x2][y2] = np.square(down[i][x1][y1] - up[i][x2][y2]).sum()
+                        lr[i][x1][y1][x2][y2] = np.square(right[i][x1][y1] - left[i][x2][y2]).sum()
 
 
 arg1 = ['C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\64-sources',\
@@ -63,7 +63,7 @@ arg1 = ['C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\64-sources'
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test2_blank\\32',\
        'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_test2_blank\\16']
 
-arg2 = 'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\data'
+arg2 = 'C:\\Users\\agano\\Documents\\notebooks\\huawei\\data_train\\data_sqr'
 arg3 = [64, 64, 32, 32, 16, 16, 64, 32, 16, 64, 32, 16]
 arg4 = ['train-64-sources', 'train-64', 'train-32-sources', 'train-32', 'train-16-sources', 'train-16',\
         'test1-64', 'test1-32', 'test1-16', 'test2-64', 'test2-32', 'test2-16']
