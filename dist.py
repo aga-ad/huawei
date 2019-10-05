@@ -16,10 +16,10 @@ def dist(path, data_path, p, prefix):
         full_path = os.path.join(path, file)
         image = skimage.io.imread(full_path)
         images.append(image)
-    left = np.zeros((len(images), m, m, p, 3), dtype=np.int16)
-    right = np.zeros((len(images), m, m, p, 3), dtype=np.int16)
-    up = np.zeros((len(images), m, m, p, 3), dtype=np.int16)
-    down = np.zeros((len(images), m, m, p, 3), dtype=np.int16)
+    left = np.zeros((len(images), m, m, p, 3), dtype=np.int32)
+    right = np.zeros((len(images), m, m, p, 3), dtype=np.int32)
+    up = np.zeros((len(images), m, m, p, 3), dtype=np.int32)
+    down = np.zeros((len(images), m, m, p, 3), dtype=np.int32)
     for i in range(len(images)):
         image = images[i]
         if len(image.shape) == 2:
@@ -30,8 +30,8 @@ def dist(path, data_path, p, prefix):
                 right[i][x][y] = image[p * x + p - 1, p * y:p * (y + 1)]
                 up[i][x][y] = image[p * x: p * (x + 1), p * y]
                 down[i][x][y] = image[p * x: p * (x + 1), p * y + p - 1]
-    ud = np.zeros((len(images), m, m, m, m), dtype=np.int16)
-    lr = np.zeros((len(images), m, m, m, m), dtype=np.int16)
+    ud = np.zeros((len(images), m, m, m, m), dtype=np.uint16)
+    lr = np.zeros((len(images), m, m, m, m), dtype=np.uint16)
     compute(m, p, left, right, up, down, len(images), ud, lr)
     np.save(os.path.join(data_path, 'ud' + prefix), ud)
     np.save(os.path.join(data_path, 'lr' + prefix), lr)
