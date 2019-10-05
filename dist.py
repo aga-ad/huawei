@@ -26,7 +26,7 @@ def dist(path, data_path, p, prefix):
             image = np.stack((image // 256,)*3, axis=-1)
         for x in range(m):
             for y in range(m):
-                ud[i][x][y] = image[p * x, p * y:p * (y + 1)]
+                up[i][x][y] = image[p * x, p * y:p * (y + 1)]
                 down[i][x][y] = image[p * x + p - 1, p * y:p * (y + 1)]
                 left[i][x][y] = image[p * x: p * (x + 1), p * y]
                 right[i][x][y] = image[p * x: p * (x + 1), p * y + p - 1]
